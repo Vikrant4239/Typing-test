@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;600&display=swap" rel="stylesheet">
+</head>
+<style>
+    *{
+        font-family: 'Dosis', sans-serif;
+        padding:0;margin: 0;box-sizing: border-box;
+    }
+    .maindiv{
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        background-color: seagreen;
+
+    }
+    .center{
+        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+    }
+    #txt{
+        border: 8px solid goldenrod;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: rgb(204, 194, 148);
+        color: black;
+        font-size: 1.2rem;
+        font-weight: bold;
+        
+    }
+    .butn{
+        padding: 8px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        background-color:black ;
+        color: white;
+        border: 2px solid grey;
+        border-radius: 10px;
+        
+    }
+    .butn:hover{
+        cursor: pointer;
+    }
+    
+</style>
+<body>
+    <div class="maindiv">
+        <div class="center">
+            <h1 id="heading">Test Your Typing Skills</h1>
+            <br>
+            <h2 id="msg"> </h2>
+            <br>
+            <textarea name="area" id="txt" cols="130" rows="13" placeholder="start typing here after hitting start"></textarea>
+            <br>
+            <button id="btn" class="butn">Start</button>
+        </div>
+    </div>
+    
+</body>
+<script>
+    const setOfWords=["hello there what is up with you.","Tell me something about yourself","why do you want to work here?","gdshaj dhsaj hjasd gdhsa ghsa ghsa ghsa uwe ger","hhsaygetfhjv vnjbk nvjhc bnhiy xnhdgrt hfjgkh nchf"," hfdjs uire nvcm,  yu hdsj bvn ksla yue "," hjska ghdsak yewu jfdk jdks sga jdk gk"];
+    const message=document.getElementById('msg');
+    const typedByUser=document.getElementById('txt');
+    const button=document.getElementById('btn');
+    let starttime,endtime;
+    const typegame=()=>{
+        let randomNumber=Math.floor(Math.random()*setOfWords.length);
+        message.innerText=setOfWords[randomNumber];
+        let date=new Date();
+        starttime=date.getTime();
+        button.innerText="Done";
+
+    }
+    const endplay=()=>{
+        let date=new Date();
+        endtime=date.getTime();
+        let totalTime=((endtime-starttime)/1000);
+        console.log(totalTime);
+        let totalstr=typedByUser.value;
+        let wordCount=wordcounter(totalstr);
+        let speed=Math.round((wordCount/totalTime)*60);
+        let finalmsg="your typing speed is " +" "+speed+" "+"words per minute";
+        finalmsg+=compare(message.innerText,totalstr);
+        message.innerText=finalmsg;
+
+    }
+    const compare=(str1,str2)=>{
+        let word1=str1.split(" ");
+        let word2=str2.split(" ");
+        let cnt=0;
+        word1.forEach(function(item,index) {
+            if(item==word2[index]){
+                cnt++;
+            }
+        })
+        let errorwords=(word1.length-cnt);
+        return(cnt+" "+"correct out of "+word1.length+" "+"words and total no. of error are"+" "+errorwords)
+    }
+    
+    const wordcounter=(str)=>{
+        let response=str.split(" ").length;
+        return response;
+    }
+    button.addEventListener('click',function(){
+        if(this.innerText=='Start'){
+            
+            typedByUser.disabled=false;
+            typegame();
+        }
+        else if(this.innerText=='Done'){
+            typedByUser.disabled=true;
+            button.innerText="Start";
+            endplay();
+        }
+    })
+</script>
+</html>
